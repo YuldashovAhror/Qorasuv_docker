@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Front\TestController;
+use App\Http\Controllers\Dashboard\PlanController;
+use App\Http\Controllers\Dashboard\WordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,16 +16,33 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('test', [TestController::class, 'index']);
+
+Route::get('/languages/{loc}', function ($loc) {
+    if (in_array($loc, ['en', 'ru', 'uz'])) {
+        session()->put('locale', $loc);
+    }
+
+    return redirect()->back();
+});
+
+Route::get('/', function() {
     return view('welcome');
 });
 
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
-    'verified'
+    'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('dashboard/words', [WordController::class, 'index'])->name('words.index');
+    Route::get('dashboard/plan', [PlanController::class, 'index'])->name('plan.index');
+    Route::post('dashboard/plan', [PlanController::class, 'store'])->name('plan.store');
+    Route::get('dashboard/dowload', [PlanController::class, 'dowloadindex'])->name('dowload.index');
+    Route::put('dashboard/dowload/{id}', [PlanController::class, 'dowloadupdate'])->name('dowload.update');
+
 });
