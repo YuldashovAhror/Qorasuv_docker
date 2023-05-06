@@ -34,7 +34,6 @@
 
 
 	<!-- PRELOADER	 -->
-
 	<div class="preloader">
 		<div class="preloader-logo">
 			<svg width="484" height="114" viewBox="0 0 484 114" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +44,7 @@
 	</div>
 
 	<!-- FEEDBACK -->
-
+{{-- @dd($plans); --}}
 	<div class="feedback">
 		<div class="feedback-content">
 
@@ -140,14 +139,14 @@
 					</a>
 				</li>
 			</ul>
-			<a href="#" class="header-download">
+			<a href="{{$dowload->photo}}" download="" class="header-download">
 				<img src="img/download.svg" alt="ico">
 				<div class="header-download__wrap">
 					<div>
 						{{__('asd.Презентация')}}
 					</div>
 					<p>
-						{{__('asd.Скачать')}} 8.2мб
+						{{__('asd.Скачать')}} {{$dowload['name_'.$lang]}}
 					</p>
 				</div>
 			</a>
@@ -254,14 +253,14 @@
 						@if($lang != 'en')<a href="/languages/en" class="current">English</a>@endif
 					</div>
 				</div>
-				<a href="#" class="header-download">
+				<a href="{{$dowload->photo}}" download="" class="header-download">
 					<img src="img/download.svg" alt="ico">
 					<div class="header-download__wrap">
 						<div>
 							{{__('asd.Презентация')}}
 						</div>
 						<p>
-							{{__('asd.Скачать')}} 8.2мб
+							{{__('asd.Скачать')}} {{$dowload['name_'.$lang]}}
 						</p>
 					</div>
 				</a>
@@ -682,15 +681,11 @@
 				<img src="" alt="plans">
 			</div>
 			<ul class="plans-thumbs">
+				@foreach ($plans as $plan)
 				<li class="wow fadeInUp" data-wow-delay=".2s">
-					<img src="img/plans/1.png" alt="plan">
+					<img src="{{$plan->photo}}" alt="plan">
 				</li>
-				<li class="wow fadeInUp" data-wow-delay=".3s">
-					<img src="img/plans/2.png" alt="plan">
-				</li>
-				<li class="wow fadeInUp" data-wow-delay=".4s">
-					<img src="img/plans/3.png" alt="plan">
-				</li>
+				@endforeach
 			</ul>
 		</div>
 	</section>

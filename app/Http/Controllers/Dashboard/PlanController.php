@@ -8,14 +8,17 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-class PlanController extends Controller
+class PlanController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return view('dashboard.plan.crud');
+        $plans = Plan::all();
+        return view('dashboard.plan.crud', [
+            'plans'=>$plans
+        ]);
     }
 
     /**
@@ -68,7 +71,16 @@ class PlanController extends Controller
 
     public function update(Request $request, string $id)
     {
-        dd('asd');
+        $plan = Plan::find($id);
+        if($request->file('photo')){
+            if(is_file(public_path($plan->photo))){
+                unlink(public_path($plan->photo));
+            }
+            $plan['photo'] = $this->photoSave($request->file('photo'), 'image/plan');
+        }
+        $plan->save();
+
+        return redirect()->route('plan.index');
     }
 
     public function dowloadupdate(Request $request, string $id)
@@ -95,6 +107,11 @@ class PlanController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $plan = Plan::find($id);
+        if(is_file(public_path($plan->photo))){
+            unlink(public_path($plan->photo));
+        }
+        $plan->delete();
+        return redirect()->back();
     }
 }

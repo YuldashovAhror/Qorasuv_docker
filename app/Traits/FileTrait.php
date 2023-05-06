@@ -17,7 +17,7 @@ trait FileTrait
         if (file_exists(public_path($directory))){
             Image::make($photo)->encode('webp', 90)->resize($width, $height)->save(public_path($photoPath));
         }else{
-            mkdir(public_path($directory), 0700, true);
+            mkdir(public_path($directory), 0777, true);
             Image::make($photo)->encode('webp', 90)->resize($width, $height)->save(public_path($photoPath));
         }
 

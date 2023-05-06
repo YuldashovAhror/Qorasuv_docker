@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Front\TestController;
 use App\Http\Controllers\Dashboard\PlanController;
 use App\Http\Controllers\Dashboard\WordController;
+use App\Http\Controllers\Front\WelcomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,9 +27,7 @@ Route::get('/languages/{loc}', function ($loc) {
     return redirect()->back();
 });
 
-Route::get('/', function() {
-    return view('welcome');
-});
+Route::get('/', [WelcomeController::class, 'index']);
 
 Route::middleware([
     'auth:sanctum',
@@ -42,6 +41,8 @@ Route::middleware([
     Route::get('dashboard/words', [WordController::class, 'index'])->name('words.index');
     Route::get('dashboard/plan', [PlanController::class, 'index'])->name('plan.index');
     Route::post('dashboard/plan', [PlanController::class, 'store'])->name('plan.store');
+    Route::put('dashboard/plan{id}', [PlanController::class, 'update'])->name('plan.update');
+    Route::delete('dashboard/plan{id}', [PlanController::class, 'destroy'])->name('plan.destroy');
     Route::get('dashboard/dowload', [PlanController::class, 'dowloadindex'])->name('dowload.index');
     Route::put('dashboard/dowload/{id}', [PlanController::class, 'dowloadupdate'])->name('dowload.update');
 
